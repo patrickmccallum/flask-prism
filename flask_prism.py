@@ -131,11 +131,12 @@ class ReturnableResponse(Response):
         return final
 
     def build_response(self):
-        return_objects = {} if not self.as_list or self.data_objects.__len__() > 1 else []
+        return_objects = {} if not self.as_list and self.data_objects.__len__() > 1 else []
 
         if self.data_objects.__len__() > 1:
+            for o in self.data_objects:
+                return_objects.append(self.get_representation_dict(o))
 
-            pass
         elif self.data_objects.__len__() == 1:
             r = self.get_representation_dict(self.data_objects[0])
             return_objects = r
