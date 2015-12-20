@@ -1,31 +1,35 @@
+![alt text](_static/prism_small.png "Flask-PRISM")
 
-
-![alt text](http://patsnacks.com/wp-content/uploads/2015/10/524x128xflask-font-prism-02-e1444044468717.png.pagespeed.ic.e09xraLMJj.png "Flask-PRISM")
+Flask-PRISM
+=============
 
 PRISM Is an simple way to manage your Flask APIs, providing consistent models, versions, access, and more while leaving you in full control. It's even super easy to use.
 
-Check out this Flask-SQLAlchemy model using PRISM:
+
+Check out this User model powered by Flask-SQLAlchemy and turned to JSON using PRISM:
 
 ```python
+
 from prism import p
+from database import db
 
 class User(db.Model):
 
     # Define table name
     __tablename__ = 'users'
-
+ 
     # Primary key, user ID
-    user_id = db.Column(db.Integer, primary_key=True, autoincrement=True, index=True)
-
+    user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+ 
     # First name
     first_name = db.Column(db.String(255))
 
     # Email
     email = db.Column(db.String(255))
-
+ 
     # Password
     password = db.Column(db.String(255))
-
+ 
     @p.api_representation()
     def as_data(self):
         return {
@@ -50,60 +54,38 @@ def api_users_get():
 
 ```
 
-
-Features
---------
-
-- Easily manage your JSON models from a predictable location
-- Insert permission based rules into your JSON output
-- Models and permission checks can be easily versioned by passing a ``version=INTEGER`` parameter
-
-
-
-
-### Installation
-
-You can grab Flask-PRISM using pip (our Pypi page is over here <https://pypi.python.org/pypi?name=Flask-PRISM&:action=display> )
-
-```sh
-$ pip install Flask-PRISM
+Which returns a nice clean and easy output
+```json
+[
+    {
+        "user_id": 1,
+        "email": "some_email@internet.co",
+        "first_name": "Roger"
+    },
+    {
+        "user_id": 2,
+        "email": "just@use.slack",
+        "first_name": "Jennifer"
+    }
+]
 ```
 
-Instantiate our **Prism** object in a separate file, in this example it's in ``prism.py``
-```python
-from flask.ext.prism import Prism
 
-p = Prism()
-```
+### Topics
 
-And finally, call ``init_app()`` during setup.
-```python
-from flask import Flask
-from flask.ext.prism import ReturnableResponse
-from prism import p
+- [Getting started and installation](quickstart.html)
+- [Versions](versions.html)
+- [Permissions](permissions.html)
+- [Advanced usage](advanced.html)
 
-from models import User
 
-# Setup flask like we normally do
-app = Flask(__name__)
-
-# Setup PRISM to see Flask
-p.init_app(app)
-
-@app.route('/api/user/<user_id>')
-def api_user_get(user_id):
-    return ReturnableResponse(User.query.get(user_id))
-
-if __name__ == '__main__':
-    app.run()
-```
 
 
 
 
 ### Development
 
-Want to contribute? Awesome!
+Want to contribute? Awesome!  
 If you've made a change you think will help other PRISM users, just open a merge request or an issue on GitHub.
 
 If you're not already there, it's over at <https://github.com/patrickmccallum/flask-prism>
@@ -111,9 +93,9 @@ If you're not already there, it's over at <https://github.com/patrickmccallum/fl
 
 ### Changelog
 ##### 0.2.2
-
+    
 - Added documentation
-
+    
 ##### 0.2.1
  - Initial release
 
@@ -122,8 +104,6 @@ If you're not already there, it's over at <https://github.com/patrickmccallum/fl
 
 
 Flask-PRISM is distributed under the MIT license. See the LICENSE file included in this project for more.
-
-
 
 
 

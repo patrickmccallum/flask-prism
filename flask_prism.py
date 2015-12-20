@@ -14,7 +14,7 @@ class ReturnableResponse(Response):
     PRISM_VERSION_ATTRIBUTE = 'prism_version'
     PRISM_MIMETYPE_ATTRIBUTE = 'prism_mimetype'
 
-    def __init__(self, objects, status=STATUS_OK, as_list=False, mimetype=None):
+    def __init__(self, objects, status=STATUS_OK, as_list=False, mimetype=None, version=None):
         super(ReturnableResponse, self).__init__()
         if isinstance(objects, list):
             self.data_objects = objects
