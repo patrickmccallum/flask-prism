@@ -221,7 +221,7 @@ class Prism(object):
             @wraps(func)
             def process(*args, **kwargs):
                 return func(*args, **kwargs)
-
+            # FIXME:// Is having two copies of this code required? It could easily be moved into a method.
             # Determine if method was used in a class or not
             frames = inspect.stack()
             defined_in_class = False
