@@ -63,7 +63,7 @@ Features
 
 ### Installation
 
-You can grab Flask-PRISM using pip (our Pypi page is over here <https://pypi.python.org/pypi?name=Flask-PRISM&:action=display> )
+You can grab Flask-PRISM using pip (our Pypi page is [over here](https://pypi.python.org/pypi?name=Flask-PRISM&:action=display))
 
 ```sh
 $ pip install Flask-PRISM
@@ -101,12 +101,21 @@ if __name__ == '__main__':
 
 
 
+### Documentation
+
+You can find all the Flask-PRISM documentat at [flask-prism.readthedocs.org](https://flask-prism.readthedocs.org/)
+
+
+
+
 ### Development
 
 Want to contribute? Awesome!
 If you've made a change you think will help other PRISM users, just open a merge request or an issue on GitHub.
 
 If you're not already there, it's over at <https://github.com/patrickmccallum/flask-prism>
+
+And when you need to vent your anger because you're not reading the docs, my Twitter is [@patsnacks](https://twitter.com/patsnacks).
 
 
 ### Changelog
@@ -122,8 +131,5 @@ If you're not already there, it's over at <https://github.com/patrickmccallum/fl
 
 
 Flask-PRISM is distributed under the MIT license. See the LICENSE file included in this project for more.
-
-
-
 
 
