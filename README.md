@@ -103,7 +103,7 @@ if __name__ == '__main__':
 
 ### Documentation
 
-You can find all the Flask-PRISM documentat at [flask-prism.readthedocs.org](https://flask-prism.readthedocs.org/)
+You can find all the Flask-PRISM documentation at [flask-prism.readthedocs.org](https://flask-prism.readthedocs.org/)
 
 
 
