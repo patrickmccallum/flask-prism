@@ -3,8 +3,7 @@
 Flask-PRISM
 =============
 
-PRISM Is an simple way to manage your Flask APIs, providing consistent models, versions, access, and more while leaving you in full control. It's even super easy to use.
-
+PRISM is a simple way to manage your Flask APIs, providing consistent models, version management, access control, and more while leaving you in full control of your code. It's even super easy to use.
 
 Check out this User model powered by Flask-SQLAlchemy and turned to JSON using PRISM:
 
@@ -39,7 +38,7 @@ class User(db.Model):
         }
 ```
 
-Now in our API, let's say we want to return a list of all users. All we have to do is pass back any user objects from a PRISM **ReturnableResponse**
+Now in our API let's set up a route to return all users. All we do is return our Flask-SQLAlchemy models through a PRISM **ReturnableResponse**
 
 ```python
 from flask import Blueprint
@@ -86,7 +85,7 @@ Which returns a nice clean and easy output
 ### Development
 
 Want to contribute? Awesome!  
-If you've made a change you think will help other PRISM users, just open a merge request or an issue on GitHub.
+If you've made a change you think will help other PRISM users, just open a pull request or raise an issue on GitHub.
 
 If you're not already there, it's over at <https://github.com/patrickmccallum/flask-prism>
 
@@ -98,6 +97,10 @@ If you're not already there, it's over at <https://github.com/patrickmccallum/fl
     
 ##### 0.2.1
  - Initial release
+
+
+### Contact
+If you want to get in touch you can [shoot me an email](mailto:vortex@patsnacks.com) or [a tweet](https://twitter.com/patsnacks). Happy to offer support where I can.
 
 
 ### License
