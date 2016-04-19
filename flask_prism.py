@@ -46,7 +46,7 @@ class ReturnableResponse(Response):
 
         return None
 
-    def get_representation_builder(self, object):
+    def get_representation_builder(self, object, soft_fail=False):
         # Get class name of object
         class_name = object.__class__.__name__
 
@@ -65,8 +65,9 @@ class ReturnableResponse(Response):
         func = current_app.ext_prism.lookup_mappings(class_name, version=version)
 
         if func is None:
-            raise Exception('Issue retrieving stored function reference for PRISM mapping on %s object. '
-                            'Does this object have an api_response/is the right version defined?' % class_name)
+            if not soft_fail:
+                raise Exception('Issue retrieving stored function reference for PRISM mapping on %s object. '
+                                'Does this object have an api_response/is the right version defined?' % class_name)
 
         return func
 
@@ -99,9 +100,12 @@ class ReturnableResponse(Response):
                             evaluate_level(new_val)
 
                         items[k] = new_val
+                    elif self.get_representation_builder(v, soft_fail=True) is not None:
+                        new_val = self.get_representation_dict(v)
+
+                        items[k] = new_val
 
             elif isinstance(items, list):
-                #TODO: At this point the only things left to do is handle the class name issue, if it's a list and not a dict (below)
                 for i, v in enumerate(items):
                     if isinstance(v, (dict, list)):
                         # If a dict or list pass through eval_level again for further processing
@@ -121,6 +125,11 @@ class ReturnableResponse(Response):
                         # If new_val is a list or dict, pass through eval_level again for further processing
                         if isinstance(new_val, (dict, list)):
                             evaluate_level(new_val)
+
+                        items[i] = new_val
+
+                    elif self.get_representation_builder(v, soft_fail=True) is not None:
+                        new_val = self.get_representation_dict(v)
 
                         items[i] = new_val
 
@@ -324,8 +333,6 @@ class ResponseMapper(object):
         self.maps = {}
 
     def map(self, key, response):
-        print "Mapping %s to" % key, response
-
         if key in self.maps.keys():
             raise Exception('Map key "%s" overwrites existing mapping. Try renaming the new method and try again.' %
                             key)
@@ -334,8 +341,6 @@ class ResponseMapper(object):
 
     def return_for(self, class_name, version, type):
         for key, function in self.maps.items():
-            print "checking %s for %s" % (key, '%s/%s/%s' % (class_name, version, type))
-            print key.startswith('%s/%s/%s' % (class_name, version, type))
             if key.startswith('%s/%s/%s' % (class_name, version, type)):
                 return function
 

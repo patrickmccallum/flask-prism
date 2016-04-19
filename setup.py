@@ -8,7 +8,7 @@ from distutils.core import setup
 
 setup(
     name='Flask-PRISM',
-    version='0.2.2',
+    version='0.3.0',
     py_modules=['flask_prism'],
     url='http://patsnacks.com/flask-prism',
     license='MIT',
