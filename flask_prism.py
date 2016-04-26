@@ -33,7 +33,12 @@ class ReturnableResponse(Response):
             self.mimetype = mimetype
 
         self.response = self.build_response()
-        self.status = str(status)
+
+        if isinstance(status, (int, )):
+            self.status_code = status
+        else:
+            self.status = status
+
         self.mimetype = ReturnableResponse.DEFAULT_MIMETYPE if mimetype_model_rep == None else self.mimetype
 
     def get_mimetype_representation(self):

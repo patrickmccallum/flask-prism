@@ -91,23 +91,18 @@ If you're not already there, it's over at <https://github.com/patrickmccallum/fl
 
 
 ### Changelog
-#### 0.3.0
+##### 0.3.1
+- Fixed issue that would cause deployments to fail with Apache's mod_wsgi, and subsequently AWS Elastic Beanstalk
+
+##### 0.3.0
 - PRISM representations can now contain other objects with representations! They'll be auto converted on the way out
 - Removed stray print statements used for debugging
 
 ##### 0.2.2
-    
 - Added documentation
-    
+
 ##### 0.2.1
  - Initial release
-
-
-### Contact
-If you want to get in touch you can [shoot me an email](mailto:vortex@patsnacks.com) or [a tweet](https://twitter.com/patsnacks). Happy to offer support where I can.
-
-
-### License
 
 
 Flask-PRISM is distributed under the MIT license. See the LICENSE file included in this project for more.

@@ -119,12 +119,14 @@ And when you need to vent your anger because you're not reading the docs, my Twi
 
 
 ### Changelog
-#### 0.3.0
+##### 0.3.1
+- Fixed issue that would cause deployments to fail with Apache's mod_wsgi, and subsequently AWS Elastic Beanstalk
+
+##### 0.3.0
 - PRISM representations can now contain other objects with representations! They'll be auto converted on the way out
 - Removed stray print statements used for debugging
 
 ##### 0.2.2
-
 - Added documentation
 
 ##### 0.2.1
