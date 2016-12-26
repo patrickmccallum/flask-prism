@@ -90,12 +90,28 @@ app = Flask(__name__)
 # Setup PRISM to see Flask
 p.init_app(app)
 
-@app.route('/api/user/<user_id>')
-def api_user_get(user_id):
-    return ReturnableResponse(User.query.get(user_id))
+@app.route('/api/users')
+def api_users_get():
+    return ReturnableResponse(User.query.all())
 
 if __name__ == '__main__':
     app.run()
+```
+
+Which returns a nice clean and easy output
+```json
+[
+    {
+        "user_id": 1,
+        "email": "some_email@internet.co",
+        "first_name": "Roger"
+    },
+    {
+        "user_id": 2,
+        "email": "just@use.slack",
+        "first_name": "Jennifer"
+    }
+]
 ```
 
 
@@ -115,10 +131,14 @@ If you've made a change you think will help other PRISM users, just open a pull 
 
 If you're not already there, it's over at <https://github.com/patrickmccallum/flask-prism>
 
-And when you need to vent your anger because you're not reading the docs, my Twitter is [@patsnacks](https://twitter.com/patsnacks).
+Didn't read the docs? My Twitter is [@patsnacks](https://twitter.com/patsnacks).
 
 
 ### Changelog
+##### 0.3.2
+- Fixed an issue with the as_list parameter that could cause it to be ignored in certain cases
+- Tweaked the docs
+
 ##### 0.3.1
 - Fixed issue that would cause deployments to fail with Apache's mod_wsgi, and subsequently AWS Elastic Beanstalk
 

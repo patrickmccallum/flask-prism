@@ -91,6 +91,9 @@ If you're not already there, it's over at <https://github.com/patrickmccallum/fl
 
 
 ### Changelog
+##### 0.3.2
+- Fixed an issue with the as_list parameter that could cause it to be ignored in certain cases
+
 ##### 0.3.1
 - Fixed issue that would cause deployments to fail with Apache's mod_wsgi, and subsequently AWS Elastic Beanstalk
 

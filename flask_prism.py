@@ -145,7 +145,7 @@ class ReturnableResponse(Response):
         return final
 
     def build_response(self):
-        return_objects = {} if not self.as_list and self.data_objects.__len__() > 1 else []
+        return_objects = {} if not self.as_list and self.data_objects.__len__() <= 1 else []
 
         if self.data_objects.__len__() > 1:
             for o in self.data_objects:
@@ -153,7 +153,11 @@ class ReturnableResponse(Response):
 
         elif self.data_objects.__len__() == 1:
             r = self.get_representation_dict(self.data_objects[0])
-            return_objects = r
+
+            if self.as_list:
+                return_objects.append(r)
+            else:
+                return_objects = r
 
         return json.dumps(return_objects)
 
