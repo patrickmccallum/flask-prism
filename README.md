@@ -46,8 +46,24 @@ bp = Blueprint('api', __name__, url_prefix="/api")
 
 @bp.route('/users')
 def api_users_get():
-    return ReturnableResponse(User.query.all())
+    return ReturnableResponse(User.query.all(), as_list=True)
 
+```
+
+Which returns a nice clean and easy output
+```json
+[
+    {
+        "user_id": 1,
+        "email": "some_email@internet.co",
+        "first_name": "Roger"
+    },
+    {
+        "user_id": 2,
+        "email": "just@use.slack",
+        "first_name": "Jennifer"
+    }
+]
 ```
 
 
@@ -90,9 +106,9 @@ app = Flask(__name__)
 # Setup PRISM to see Flask
 p.init_app(app)
 
-@app.route('/api/users')
-def api_users_get():
-    return ReturnableResponse(User.query.all())
+@app.route('/api/users/<int:user_id>')
+def api_user_get(user_id):
+    return ReturnableResponse(User.query.get(user_id))
 
 if __name__ == '__main__':
     app.run()
@@ -100,18 +116,11 @@ if __name__ == '__main__':
 
 Which returns a nice clean and easy output
 ```json
-[
-    {
-        "user_id": 1,
-        "email": "some_email@internet.co",
-        "first_name": "Roger"
-    },
-    {
-        "user_id": 2,
-        "email": "just@use.slack",
-        "first_name": "Jennifer"
-    }
-]
+{
+    "user_id": 1,
+    "email": "some_email@internet.co",
+    "first_name": "Roger"
+}
 ```
 
 
