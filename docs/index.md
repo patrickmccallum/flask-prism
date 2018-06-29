@@ -38,18 +38,18 @@ class User(db.Model):
         }
 ```
 
-Now in our API let's set up a route to return all users. All we do is return our Flask-SQLAlchemy models through a PRISM **ReturnableResponse**
+Now in our API let's set up a route to return all users. All we do is return our Flask-SQLAlchemy models through a PRISM **Refract**
 
 ```python
 from flask import Blueprint
 from models import User
-from flask.ext.prism import ReturnableResponse
+from flask.ext.prism import Refract
 
 bp = Blueprint('api', __name__, url_prefix="/api")
 
 @bp.route('/users')
 def api_users_get():
-    return ReturnableResponse(User.query.all())
+    return Refract(User.query.all())
 
 ```
 
@@ -92,7 +92,7 @@ If you're not already there, it's over at <https://github.com/patrickmccallum/fl
 
 ### Changelog
 ##### 0.4.0 BREAKING CHANGES
-- Renamed ReturnableResponse to Refract, shorter, makes more sense given the context
+- Renamed Refract to Refract, shorter, makes more sense given the context
 - Fixed new line issue in response mapping
 
 ##### 0.3.2

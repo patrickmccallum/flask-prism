@@ -35,18 +35,18 @@ class User(db.Model):
         }
 ```
 
-Now in our API let's set up a route to return all users. All we do is return our Flask-SQLAlchemy models through a PRISM **ReturnableResponse**
+Now in our API let's set up a route to return all users. All we do is return our Flask-SQLAlchemy models through a PRISM **Refract**
 
 ```python
 from flask import Blueprint
 from models import User
-from flask.ext.prism import ReturnableResponse
+from flask.ext.prism import Refract
 
 bp = Blueprint('api', __name__, url_prefix="/api")
 
 @bp.route('/users')
 def api_users_get():
-    return ReturnableResponse(User.query.all(), as_list=True)
+    return Refract(User.query.all(), as_list=True)
 
 ```
 
@@ -95,7 +95,7 @@ p = Prism()
 And finally, call ``init_app()`` during setup.
 ```python
 from flask import Flask
-from flask.ext.prism import ReturnableResponse
+from flask.ext.prism import Refract
 from prism import p
 
 from models import User
@@ -108,7 +108,7 @@ p.init_app(app)
 
 @app.route('/api/users/<int:user_id>')
 def api_user_get(user_id):
-    return ReturnableResponse(User.query.get(user_id))
+    return Refract(User.query.get(user_id))
 
 if __name__ == '__main__':
     app.run()
@@ -145,7 +145,7 @@ Didn't read the docs? My Twitter is [@patsnacks](https://twitter.com/patsnacks).
 
 ### Changelog
 ##### 0.4.0 BREAKING CHANGES
-- Renamed ReturnableResponse to Refract, shorter, makes more sense given the context
+- Renamed Refract to Refract, shorter, makes more sense given the context
 - Fixed new line issue in response mapping
 
 ##### 0.3.2

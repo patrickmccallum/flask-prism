@@ -28,7 +28,7 @@ And now when I setup my app I'll just import that ``p`` object and call ``p.init
 
 ```python
 from flask import Flask
-from flask.ext.prism import ReturnableResponse
+from flask.ext.prism import Refract
 from prism import p
 
 from models import User
@@ -104,7 +104,7 @@ Now let's start building our first API using PRISM. Just to keep the theme going
 
 ```python
 from flask import Blueprint
-from flask.ext.prism import ReturnableResponse
+from flask.ext.prism import Refract
 
 from models.user import User
 from prism import p
@@ -113,27 +113,27 @@ bp = Blueprint('api_user_v1', __name__, url_prefix="/api/v1/users")
 
 @bp.route('/')
 def api_v1_users_get():
-    return ReturnableResponse(User.query.all())
+    return Refract(User.query.all())
     
 @bp.route('/<int:user_id>')
 def api_v1_user_get(user_id):
-    return ReturnableResponse(User.query.get(user_id))
+    return Refract(User.query.get(user_id))
     
 ```
 
 How easy is that? 
 
-You can pass a single or many objects into the **ReturnableResponse** object (which behaves exactly like a normal Flask **Response**) but with a few extra optional parameters:
-- ReturnableResponse(**version** *[=None]*) - **Integer**  
+You can pass a single or many objects into the **Refract** object (which behaves exactly like a normal Flask **Response**) but with a few extra optional parameters:
+- Refract(**version** *[=None]*) - **Integer**
 
     When you specify a version here and in your *api_representation* method, you can tell the response exactly which version of your model to show here.
-- ReturnableResponse(**as_list** *[=False]*) - **String**
+- Refract(**as_list** *[=False]*) - **String**
 
     When you pass multiple objects into a **Returnable Response** the JSON is automatically formatted as an *array*, but when only a single object is passed it behaves like an *object*. When **as_list** is true, it forces the output to always be formatted as a JSON *array*.
-- ReturnableResponse(**mimetype** *[=None]*) - **String**
+- Refract(**mimetype** *[=None]*) - **String**
 
     Just like the base Flask **Response** you can specify a mimetype here.
-- ReturnableResponse(**status** *[=200]*) - **String**
+- Refract(**status** *[=200]*) - **String**
 
     Just like the base Flask **Response** you can specify a status code here.
  
@@ -143,7 +143,7 @@ All that's left is to register the blueprint under ``server.py``
 
 ```python
 from flask import Flask
-from flask.ext.prism import ReturnableResponse
+from flask.ext.prism import Refract
 from prism import p
 
 from models import User

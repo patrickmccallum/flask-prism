@@ -8,9 +8,9 @@ from distutils.core import setup
 
 setup(
     name='Flask-PRISM',
-    version='0.3.2',
+    version='0.4.0',
     py_modules=['flask_prism'],
-    url='http://patsnacks.com/flask-prism',
+    url='https://github.com/patrickmccallum/flask-prism',
     license='MIT',
     author='Patrick McCallum',
     author_email='vortex@patsnacks.com',
