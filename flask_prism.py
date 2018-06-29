@@ -5,23 +5,28 @@ import json
 from flask import Response, current_app, request
 from werkzeug.wrappers import Response as ResponseBase
 
-__all__ = ('ReturnableResponse', 'Prism', 'ResponseMapper')
+__all__ = ('Refract', 'Prism', 'ResponseMapper')
 
-class ReturnableResponse(Response):
+
+class Refract(Response):
     STATUS_OK = 200
     DEFAULT_MIMETYPE = 'text/json'
 
     PRISM_VERSION_ATTRIBUTE = 'prism_version'
     PRISM_MIMETYPE_ATTRIBUTE = 'prism_mimetype'
 
-    def __init__(self, objects, status=STATUS_OK, as_list=False, mimetype=None, version=None):
-        super(ReturnableResponse, self).__init__()
+    def __init__(self, objects, status=STATUS_OK, as_list=False, mimetype=None, version=None, headers=None):
+        super(Refract, self).__init__()
         if isinstance(objects, list):
             self.data_objects = objects
         else:
             self.data_objects = [objects]
 
         self.as_list = as_list
+
+        # Store headers
+        if headers:
+            self.headers = headers
 
         # Get mimetype from representations
         mimetype_model_rep = self.get_mimetype_representation()
@@ -34,20 +39,20 @@ class ReturnableResponse(Response):
 
         self.response = self.build_response()
 
-        if isinstance(status, (int, )):
+        if isinstance(status, (int,)):
             self.status_code = status
         else:
             self.status = status
 
-        self.mimetype = ReturnableResponse.DEFAULT_MIMETYPE if mimetype_model_rep == None else self.mimetype
+        self.mimetype = Refract.DEFAULT_MIMETYPE if mimetype_model_rep == None else self.mimetype
 
     def get_mimetype_representation(self):
 
         for o in self.data_objects:
             func = self.get_representation_builder(o)
 
-            if hasattr(func, ReturnableResponse.PRISM_MIMETYPE_ATTRIBUTE):
-                return getattr(func, ReturnableResponse.PRISM_MIMETYPE_ATTRIBUTE)
+            if hasattr(func, Refract.PRISM_MIMETYPE_ATTRIBUTE):
+                return getattr(func, Refract.PRISM_MIMETYPE_ATTRIBUTE)
 
         return None
 
@@ -61,8 +66,8 @@ class ReturnableResponse(Response):
             bp = current_app.blueprints[request.blueprint]
 
             # Get prism_version from BP if applicable
-            version = getattr(bp, ReturnableResponse.PRISM_VERSION_ATTRIBUTE) \
-                if hasattr(bp, ReturnableResponse.PRISM_VERSION_ATTRIBUTE) else None
+            version = getattr(bp, Refract.PRISM_VERSION_ATTRIBUTE) \
+                if hasattr(bp, Refract.PRISM_VERSION_ATTRIBUTE) else None
         else:
             version = None
 
@@ -179,19 +184,21 @@ class Prism(object):
         the_class = str(stack[2][0].f_locals["self"].__class__).split('.')[1]
         return the_class
 
-
     def has_or_none(self, key, value, version=None):
-        r = ResponseEvaluator(self, '%s' % (self.get_calling_class_name()), key, ResponseEvaluator.MODE_NONE, value, version=version)
+        r = ResponseEvaluator(self, '%s' % (self.get_calling_class_name()), key, ResponseEvaluator.MODE_NONE, value,
+                              version=version)
 
         return r
 
     def has_or_exclude(self, key, value, version=None):
-        r = ResponseEvaluator(self, self.get_calling_class_name(), key, ResponseEvaluator.MODE_EXCLUDE, value, version=version)
+        r = ResponseEvaluator(self, self.get_calling_class_name(), key, ResponseEvaluator.MODE_EXCLUDE, value,
+                              version=version)
 
         return r
 
     def has_or_else(self, key, value, else_value, version=None):
-        r = ResponseEvaluator(self, self.get_calling_class_name(), key, ResponseEvaluator.MODE_ELSE, value, version=version)
+        r = ResponseEvaluator(self, self.get_calling_class_name(), key, ResponseEvaluator.MODE_ELSE, value,
+                              version=version)
         r.alternative = else_value
 
         return r
@@ -228,7 +235,7 @@ class Prism(object):
             func.prism_mimetype = mimetype
 
             # Map the method to a format we know about
-            self.mapper.map('%s/%s/rep/%s' % (class_name, version, func.__name__), func)
+            self.mapper.map('%s/%s/rep/%s' % (class_name.strip('\n:'), version, func.__name__), func)
 
             return process
 
@@ -239,6 +246,7 @@ class Prism(object):
             @wraps(func)
             def process(*args, **kwargs):
                 return func(*args, **kwargs)
+
             # FIXME:// Is having two copies of this code required? It could easily be moved into a method.
             # Determine if method was used in a class or not
             frames = inspect.stack()
@@ -270,7 +278,8 @@ class Prism(object):
 
         # If result is none, raise exception
         if func is None:
-            raise Exception('Mapping not found for class %s, version %s, would have used access key %s' % (access_reference, version, access_key))
+            raise Exception('Mapping not found for class %s, version %s, would have used access key %s' % (
+            access_reference, version, access_key))
 
         # Get the result from method
         result = func(instance, access_key)
@@ -287,6 +296,7 @@ class Prism(object):
 
     def lookup_mappings(self, class_name, version=None, type='rep'):
         return self.mapper.return_for(class_name=class_name, version=version, type=type)
+
 
 class ResponseEvaluator(object):
     """

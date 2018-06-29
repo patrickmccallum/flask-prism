@@ -1,6 +1,6 @@
 
 
-![alt text](http://patsnacks.com/wp-content/uploads/2015/10/524x128xflask-font-prism-02-e1444044468717.png.pagespeed.ic.e09xraLMJj.png "Flask-PRISM")
+![alt text](http://flask-prism.readthedocs.io/en/latest/_static/prism_small.png "Flask-PRISM")
 
 PRISM is a simple way to manage your Flask APIs, providing consistent models, version management, access control, and more while leaving you in full control of your code. It's even super easy to use.
 
@@ -144,6 +144,10 @@ Didn't read the docs? My Twitter is [@patsnacks](https://twitter.com/patsnacks).
 
 
 ### Changelog
+##### 0.4.0 BREAKING CHANGES
+- Renamed ReturnableResponse to Refract, shorter, makes more sense given the context
+- Fixed new line issue in response mapping
+
 ##### 0.3.2
 - Fixed an issue with the as_list parameter that could cause it to be ignored in certain cases
 - Tweaked the docs
