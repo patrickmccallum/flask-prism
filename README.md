@@ -145,7 +145,7 @@ Didn't read the docs? My Twitter is [@patsnacks](https://twitter.com/patsnacks).
 
 ### Changelog
 ##### 0.4.0 BREAKING CHANGES
-- Renamed Refract to Refract, shorter, makes more sense given the context
+- Renamed ReturnableResponse to Refract, shorter, makes more sense given the context
 - Fixed new line issue in response mapping
 
 ##### 0.3.2

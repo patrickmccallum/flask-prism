@@ -92,7 +92,7 @@ If you're not already there, it's over at <https://github.com/patrickmccallum/fl
 
 ### Changelog
 ##### 0.4.0 BREAKING CHANGES
-- Renamed Refract to Refract, shorter, makes more sense given the context
+- Renamed ReturnableResponse to Refract, shorter, makes more sense given the context
 - Fixed new line issue in response mapping
 
 ##### 0.3.2
