@@ -57,9 +57,9 @@ class Refract(Response):
 
         return None
 
-    def get_representation_builder(self, object, soft_fail=False):
+    def get_representation_builder(self, prism_object, soft_fail=False):
         # Get class name of object
-        class_name = object.__class__.__name__
+        class_name = prism_object.__class__.__name__
 
         # Determine if a blueprint is being used
         if request.blueprint != None:
@@ -76,15 +76,21 @@ class Refract(Response):
         func = current_app.ext_prism.lookup_mappings(class_name, version=version)
 
         if func is None:
+            if isinstance(prism_object, dict):
+                return prism_object
+
             if not soft_fail:
                 raise Exception('Issue retrieving stored function reference for PRISM mapping on %s object. '
                                 'Does this object have an api_response/is the right version defined?' % class_name)
 
         return func
 
-    def get_representation_dict(self, object):
+    def get_representation_dict(self, prism_object):
         # Get response from builder
-        resp = self.get_representation_builder(object)(object)
+        if not isinstance(prism_object, dict):
+            resp = self.get_representation_builder(prism_object)(prism_object)
+        else:
+            resp = prism_object
 
         # Look for has_ methods and evaluate
         def evaluate_level(items):
@@ -99,7 +105,7 @@ class Refract(Response):
                         items.pop(k, 0)
                     elif isinstance(v, ResponseEvaluator):
                         # If a response evaluator, evaluate
-                        new_val = v.evaluate_for_response(object)
+                        new_val = v.evaluate_for_response(prism_object)
 
                         # If new_val is a Killer, pop this key and continue
                         if isinstance(new_val, ResponseEvaluator.Killer):
@@ -126,7 +132,7 @@ class Refract(Response):
                         items.remove(v)
                     elif isinstance(v, ResponseEvaluator):
                         # If it's a response evaluator, evaluate it
-                        new_val = v.evaluate_for_response(object)
+                        new_val = v.evaluate_for_response(prism_object)
 
                         # If new_val is a Killer, remove this value and continue
                         if isinstance(new_val, ResponseEvaluator.Killer):
