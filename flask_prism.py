@@ -3,7 +3,6 @@ import inspect
 import json
 
 from flask import Response, current_app, request
-from werkzeug.wrappers import Response as ResponseBase
 
 __all__ = ('Refract', 'Prism', 'ResponseMapper')
 
@@ -32,12 +31,14 @@ class Refract(Response):
         mimetype_model_rep = self.get_mimetype_representation()
         if mimetype_model_rep != None:
             self.mimetype = mimetype_model_rep
+        else:
+            self.mimetype = 'text/json'
 
         # If mimetype is defined in this response then override
         if mimetype != None:
             self.mimetype = mimetype
 
-        self.response = self.build_response()
+        self.data = self.build_response()
 
         if isinstance(status, (int,)):
             self.status_code = status
