@@ -46,6 +46,7 @@ bp = Blueprint('api', __name__, url_prefix="/api")
 
 @bp.route('/users')
 def api_users_get():
+    # Return with as_list=True, this forces the JSON to be an array even if there's only one result.
     return Refract(User.query.all(), as_list=True)
 
 ```
